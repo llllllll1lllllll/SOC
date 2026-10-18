@@ -71,4 +71,8 @@ Malicious
 Accessed
 
 
+    5- We classify it as?
+True Positive
+
+
 Correction: In question number 2 the malware is not quarantined, we contained the system but the firewall didn't quarantined it.
