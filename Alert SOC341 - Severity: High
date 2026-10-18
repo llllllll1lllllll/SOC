@@ -1,0 +1,73 @@
+Alert SOC341 - Severity: High - Local Privilege Escalation via chroot CVE-2025-32463
+
+
+EventID: 319
+Event Time: 2025-07-04T08:10:00+03:00
+Rule: SOC341 - Local Privilege Escalation via chroot CVE-2025-32463
+Role: Incident Responder
+Alert Type: Privilege Escalation
+Difficulty: Medium
+MITRE ATT&CK: T1078, T1059.004, T1609, T1548.003
+L1 Note: Suspicious usage of `sudo -R` was detected, likely indicating a privilege escalation attempt via CVE-2025-32463.
+Hostname: ubuntu-dev
+IP Address: 172.16.20.56
+Process Name: bash
+Process Path: /usr/bin/bash
+Process User: root
+Device Action: Allowed
+Trigger Reason: Detected suspicious use of 'sudo -R' inside a Docker container, indicating potential CVE-2025-32463 exploitation.
+Parent Process Name: dash
+Process Command Line: sudo -R woot woot
+
+
+Step 1: Check the logs for any unusual activity. We observe two failed login attempts from IP 212.102.51.94 on 2025-07-04 at 18:53. This IP has not been previously connected to any other 
+device on the network.
+
+
+Step 2: Examine the endpoint for suspicious behavior. In the command history, we can see the execution of the `whoami` command, followed by a `wget` request to a GitHub repository to 
+download `CVE-2025-32463_chwoo`, which is then saved as a shell script at `/home/devuser/sudo-chwoot.sh`.
+
+
+Step 3: Contain the computer.
+
+
+Step 4: Review subsequent actions. The attacker creater a docker on port 2222 (ssh) executed `mktemp -d /tmp/sudowoot.stage.XXXXXX`, ran `cat /etc/os-release` (likely for reconnaissance), 
+and used `ps aux`—also likely for reconnaissance in preparation for future attacks.
+
+
+Step 5: Examine the executed processes. We can see that the attacker accessed the system via `sshd` through a port opened via Docker. This connection originated from a different IP address:
+`3.146.14.150`. While this IP did not appear in the logs, it is visible on the endpoint. We also observe that a library file was created which executes it as sudo and gives access to root.
+
+
+Step 6: Check whether these IP addresses were used to connect to other systems on the network.
+
+
+Step 7: Complete the Let's Defend playbook. 
+
+
+                1-Have you noticed any suspicious file downloads or attachments that may contain malicious code?
+Answer: Yes.
+
+                2-Select the operating system affected by the attack.
+Select: Linux (since Bash was used).
+
+                3-Have they reached privilege escalation?
+Select: Valid accounts (the attacker compromised the machine, deployed a Docker container, and used it to connect to the host via SSH and execute a shell). 
+
+                4-What type of privilege escalation?
+Select: Exploitation for Privileges (as this was the objective of the shell script). 
+
+                5-After the attack, what level of privileges did the attacker gain?
+Select: System/root level.
+
+                6-Did you observe any persistence techniques? Our answer is no; while a Docker container was indeed opened to establish an SSH connection, there is no persistence. 
+
+                7-So should the device be isolated?
+Our answer is yes, and we classify it as a True Positive.
+
+
+Correction: For question number 3, the answer was "None," as no valid accounts—other than the one already compromised had been compromised.
+
+
+
+
