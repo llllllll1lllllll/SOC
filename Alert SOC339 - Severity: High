@@ -1,0 +1,93 @@
+🚨 Alert SOC339 - ZDI-CAN-25373 Windows Shortcut Exploit Detected
+** SEVERITY: HIGH** | **STATUS: TRUE POSITIVE** | **TARGET: `Cooper` (`172.16.17.217`)**
+
+
+                                                        ## 🟢 Overview & Metadata
+
+EventID : 317
+Event Time : 2025-03-20T13:48:20+03:00
+Rule : SOC339 - ZDI-CAN-25373 Windows Shortcut Exploit Detected
+Role : Incident Responder
+Alert Type : Malware
+Difficulty : Hard
+MITRE ATT&CK : T1078 T1566 T1566.001 T1059.001 T1204 T1204.002 T1136 T1136.001 T1036 T1036.005 T1105 T1041
+Hostname : Cooper
+L1 Notes : Upon investigation, the file was found to originate from an email attachment named 2025AnnualReport.zip. The execution of this LNK file triggered a powershell process, which then initiated further suspicious commands. Assigning for further investigations.
+File Hash : 6F927D74FB2075C60F2F7795B718CA571947F3D1E7B591D2D2FD5A35DD5503F8
+File Name : 2025AnnualReport.lnk
+File Path : C:\Users\LetsDefend\Downloads
+IP Address : 172.16.17.217
+Trigger Reason : Shortcut (LNK) file executing a powershell script was detected, indicating potential malware activity.
+
+
+                                                        ## 🔍 Step-by-Step Investigation Timeline
+
+
+-Phase 1: Check in VirusTotal the hash. It's considered malicious by 40/62 of the antivirus. We proceed to contain the machine.
+
+
+-Phase 2: We check the log management. We can see the download 2025AnnualReport.zip which is downloaded and the malware is executed. It creates a powershell process which leads to command 
+injection of another script from 'http://18.223.186.129:4444/MBS.ps1' which is IEX. So it's being executed in RAM.
+
+
+-Phase 3: We check the IP 18.223.186.129 that is not being moving laterally to other machines. We don't find any connection between the clients and the malicious IP. We check that the 
+infected computer hasn't made any connection to other IP's in the network too as it's vulnerable now.
+
+
+-Phase 4: The malware creates a user called HelpDesk in the victim's machine. It moves the account to Administrator's group and to the Remote Desktop Users group too. 
+
+
+-Phase 5: We check the timestamps of the actions and we can see that the interval of time has been in a short period of time which it can lead to the option that it was a spearphishing where
+they knew the actions of execution as they didn't have any commands before to know to which groups add the users.
+
+
+-Phase 6: Check the processes of the victim's machine. It shows how using 'wevutils.exe' they unninstalled microsoft antivirus Windows Defender, Real Time Protection and the Antimalware. 
+The next step that the attacker did was installing another version of Microsoft Defender and DLL's. 
+
+
+-Phase 7: As wevutils.exe is considered High Privilege action. Probably the machine didn't have Admin account or the victim was using the Admin account for a short period of time and at the 
+same time downloaded the malware, which gave full access to the attacker. 
+
+
+
+
+
+                                                        ## 📋 Let's Defend Playbook Resolution
+
+
+    Question 1-Is the file malicious?
+Malicious
+
+
+    Question 2-What is the malware type?
+Trojan
+
+
+    Question 3-What is the initial access method used in the attack?
+Phishing
+
+
+    Question 4-Have you seen IOCs on more than one machine?
+No
+
+
+    Question 5-Malware quarantined/cleaned?
+Not cleaned
+
+
+    Question 6-Has the malware been executed on the device?
+Yes
+
+
+    Question 7-Which technique(s) was used as an execution tactic?
+Exploitation for Client Execution
+
+
+    Question 8-Check If Someone Requested the C2
+Accessed.
+
+
+We classify it as True Positive.
+
+
+Correction: The question 7 the correct answer is User Execution which is similar but not identical.
