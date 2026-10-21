@@ -1,0 +1,92 @@
+🚨 Alert SOC328 - Akira Ransomware IOC's Detected
+** SEVERITY: HIGH** | **STATUS: TRUE POSITIVE** | **TARGET: `Vergil` (`172.16.17.130`)**
+
+
+                                                        ## 🟢 Overview & Metadata
+
+
+⭐ https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-109a
+
+EventID : 306
+Event Time : 2024-10-02T05:52:00+03:00
+Rule : SOC328 - Akira Ransomware IOC's Detected
+Role : Incident Responder
+Alert Type : APT Group
+Difficulty : Hard
+MITRE ATT&CK : T1566.001 T1047 T1059.001 T1059.003 T1485 T1486 T1490
+Hash : 2C7AEAC07CE7F03B74952E0E243BD52F2BFA60FADC92DD71A6A1FEE2D14CDD77
+L1 Note : When I analyzed the alert, I saw that a user named Vergil received an email with an attached file named 'payment-confirmation-invoice-12345.zip'. It seems that the victim ran the 
+relevant .exe. However, I could not confirm that the ransomware variant belonged to Akira.
+Hostname : Vergil
+File Path : C:\Users\LetsDefend\Downloads\payment-confirmation-invoice-12345\Payment Confirmation Invoice #12345.exe
+EDR Action : Detected
+IP Address : 172.16.17.130
+Alert Trigger Reason : Executed potentially malicious files associated with Akira ransomware.
+
+
+
+                                                        ## 🔍 Step-by-Step Investigation Timeline
+
+
+
+
+
+-Phase 1: Check the log management. We can see how there is malicious command injection so we proceed to contain the victim's machine. 
+
+
+-Phase 2: We check if there has been lateral movement from the victim IP to another. There is not connection. 
+
+
+-Phase 3: Check the command line. We see how the zip was opened with 7z.
+
+
+-Phase 4: We can see in the logs how he used powershell also to list shadow copies and delete them. Execute the exe that is inside the zip archive downloaded.
+
+
+-Phase 5: Then the attacker creates a text as part of the ransomware attack. 
+
+
+-Phase 6: The malware is a ransomware who injects code not in any process/log/command. It doesn't move laterally.
+
+
+
+
+
+                                                        ## 📋 Let's Defend Playbook Resolution
+
+
+
+
+
+    -Question 1: Is there any related message evidence?
+Yes
+
+
+    -Question 2: Is there any text evidence to identify the ransomware type?
+Yes
+
+
+    -Question 3: Is there file-type evidence to help identify the ransomware type?
+Yes
+
+
+    -Question 4: Is there any useful data?
+Yes
+
+
+    -Question 5: What is the initial access method used in the attack?
+Phishing
+
+
+    -Is there more than one infected device??
+No
+
+
+    -Does the device need the be isolated?
+Yes
+
+
+We classify it as True Positive.
+
+
+Correction: In question number 2 the malware is not quarantined, we contained the system but the firewall didn't quarantined it.
