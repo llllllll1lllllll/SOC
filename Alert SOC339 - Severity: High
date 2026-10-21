@@ -37,16 +37,16 @@ infected computer hasn't made any connection to other IP's in the network too as
 -Phase 4: The malware creates a user called HelpDesk in the victim's machine. It moves the account to Administrator's group and to the Remote Desktop Users group too. 
 
 
--Phase 5: We check the timestamps of the actions and we can see that the interval of time has been in a short period of time which it can lead to the option that it was a spearphishing where
-they knew the actions of execution as they didn't have any commands before to know to which groups add the users.
+-Phase 5: We check the timestamps of the actions and we can see that the interval of time has been in a short period of time which it can lead to the option that it was a spearphishing
+where they knew the actions of execution as they didn't have any commands of reconnaissance before to know to which groups add the users.
 
 
 -Phase 6: Check the processes of the victim's machine. It shows how using 'wevutils.exe' they unninstalled microsoft antivirus Windows Defender, Real Time Protection and the Antimalware. 
-The next step that the attacker did was installing another version of Microsoft Defender and DLL's. 
+The next step that the attacker did was installing another version of Microsoft Defender and its DLL's. 
 
 
--Phase 7: As wevutils.exe is considered High Privilege action. Probably the machine didn't have Admin account or the victim was using the Admin account for a short period of time and at the 
-same time downloaded the malware, which gave full access to the attacker. 
+-Phase 7: As wevutils.exe is considered High Privilege action. Probably the machine didn't have Admin account or the victim was using the Admin account for a short period of time and
+downloaded the malware, which gave full privilege access to the attacker. 
 
 
 
