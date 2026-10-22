@@ -1,0 +1,84 @@
+🚨 Alert 
+** SEVERITY: HIGH** | **STATUS: TRUE POSITIVE** | **TARGET: `Kristine` (`172.16.17.129`)**
+
+
+
+
+
+                                                        ## 🟢 Overview & Metadata
+
+
+
+
+EventID : 302
+Event Time : 2024-09-20T06:35:12+03:00
+Rule : SOC324 - Sudoers File Modification Detected
+Role : Incident Responder
+Alert Type : Brute Force
+Difficulty : Medium
+MITRE ATT&CK : T1078 T1133 T1059.004 T1136 T1548 T1548.003 T1110
+L1 Note : Minutes before the alert, I saw a Brute Force attempt with different users from the IP 149.88.25.133 towards the system. However, I could not determine whether this attack was
+successful or not.
+Hostname : Kristine
+Ip Address : 172.16.17.129
+Command Line : sudo cat /etc/sudoers
+Trigger Reason : Accessing the /etc/sudoers file is often a precursor to abusing the sudo mechanism itself, allowing attackers to run commands with elevated privileges.
+
+
+
+
+
+
+                                                        ## 🔍 Step-by-Step Investigation Timeline
+
+
+-Phase 1: Check the commands on the endpoint and it shows how the user is trying to access to Credentials.
+
+
+-Phase 2: Check the log management and see how the user analyst has been vulnerated as the first attemp is accepted. 
+
+
+-Phase 3: We contain the user Kristine. We check that the user hasn't sudo privileges that he used in the commands. He had success on Privilege Escalation.
+
+
+-Phase 4: We proceed to check if the attacker's IP 149.88.25.133 had any other connection to other machines. There is not any other connection. In this case we could block the IP on Firewall
+
+
+-Phase 5: We check that there hasn't been lateral movement from the Kristine IP to other machines in the network. There is a connection to IP 172.217.17.110 but it acts as a Proxy.
+
+
+
+
+
+                                                        ## 📋 Let's Defend Playbook Resolution
+
+
+
+
+    -Question 1: What is the Operating system of the endpoint in the alert details?
+Linux
+
+
+    -Question 2: Based on the endpoint security assessment, which Defense Evasion Techniques does the attack involve?
+Abuse Elevation Control Mechanism
+
+
+    -Question 3: Evaluate whether any IOCs found are suspicious based on their behavior and reputation. Have you encountered any IOCs?
+Yes
+
+
+    -Question 4: Is the IOC reputation of the attacker suspicious or not?
+Yes
+
+
+    -Question 5: Is there more than one affected device?
+No, this question is tricky because he got access to etc/sudoers but we don't have any other access from that IP to other from the network. But it could be yes as he could change his IP.
+
+
+    - Question 6: Systems that have been exposed to a cyber-attack should be isolated to reduce the impact of the cyber attack. Should the device be isolated?
+Yes
+
+
+We classify it as True Positive.
+
+100% correct answers.
