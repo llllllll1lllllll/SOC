@@ -1,0 +1,90 @@
+🚨 Alert 
+** SEVERITY: HIGH** | **STATUS: TRUE POSITIVE** | **TARGET: `x` (`x.x.x.x`)**
+
+
+
+
+
+                                                        ## 🟢 Overview & Metadata
+
+
+
+
+
+EventID : 291
+Event Time : 2024-08-19T07:48:59+03:00
+Rule : SOC313 - Proxy Execution via MSBuild
+Role : Incident Responder
+Alert Type : Exchange
+Difficulty : Medium
+MITRE ATT&CK : T1566.001 T1059.001 T1059.005 T1204.002 T1547.001 T1027 T1127.001 T1140 T1564 T1571
+L1Note : I saw that the user received an e-mail from “support@upsbezahlung.com” minutes before the alert occurred. However, I could not determine the relationship of the file in the 
+attachment in the e-mail with the alert.
+Hostname : Shanna
+IpAddress : 172.16.17.114
+CommandLine : C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe /stext "C:\Users\LetsDefend\AppData\Local\Temp\1\wazbtfpayqhrwvnpnebetcezeysgffrb"
+ProcessName : MSBuild.exe
+ProcessPath : C:\Windows\Microsoft.NET\Framework\v4.0.30319
+DeviceAction : Allowed
+ParentProcess : powershell.exe
+TriggerReason : This alert could trigger when MSBuild is used as a proxy to execute potentially malicious commands or scripts.
+
+
+
+
+
+
+                                                        ## 🔍 Step-by-Step Investigation Timeline
+
+
+-Phase 1: We check the logs to see malicious traffic. There are possible malicious executions, we will confirm checking the commands in the endpoint.
+
+
+-Phase 2: There are malicious powershell commands bypassing security measures. Running it also as hidden and using legitimate websites like us.archive to allocate malware.
+
+
+-Phase 3: We will check from both IPs 172.16.17.114 if there have been lateral movement. 
+
+
+-Phase 4: We see that he did reconnaissance in the registry and it outputs the results in JSON.
+
+
+-Phase 5: The attacker use the legitimate process msbuild to inject a script and he executed also a v1.vbs file which is the Windows language for scripting. 
+
+
+
+
+
+                                                        ## 📋 Let's Defend Playbook Resolution
+
+
+
+
+    -Question 1: What is the Operating system of the endpoint in the alert details?
+Windows
+
+
+    -Question 2: Based on the analysis conducted on endpoint security and log management, which Defense Evasion techniques does the attack involve?
+System Script Proxy Execution
+
+
+    -Question 3: Evaluate whether any IOCs found are suspicious based on their behavior and reputation. Have you encountered any IOCs?
+Yes
+
+
+    -Question 4: Is the IP suspicious or not?
+Yes
+
+
+    -Question 5: Is there more than one affected device?
+No
+
+
+    -Question 6: Should the device be isolated?
+Yes
+
+
+We classify it as True Positive.
+
+
+Correction: In question number 2 the correct answer is Trusted Developer Utilities Proxy Execution as he used the MSbuild developer tool to inject his script. 
