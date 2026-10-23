@@ -1,0 +1,83 @@
+🚨 Alert 
+** SEVERITY: HIGH** | **STATUS: TRUE POSITIVE** | **TARGET: `Shepherd` (`172.16.17.128`)**
+
+
+
+
+
+                                                        ## 🟢 Overview & Metadata
+
+
+
+
+EventID : 300
+Event Time : 2024-09-17T05:06:37+03:00
+Rule : SOC322 - Named Pipe Token Impersonation Detected
+Role : Incident Responder
+Alert Type : Generic
+Difficulty : Medium
+MITRE ATT&CK : T1078 T1133 T1059.001 T1059.003 T1134.001 T1110 T1033 T1057 T1069 T1082 T1087
+Hostname : Shepherd
+L1 Notes : Minutes before the alert, I saw brute force attempts towards the system on IP 146.70.202.86. However, I could not determine whether these attempts were successful or not. Therefore, I could not understand whether the relevant command was attacker or admin activity.
+IP Address : 172.16.17.128
+EDR AV Action : Not Detected
+Trigger Reason : Detects potential access token manipulation via named pipe impersonation and execution of remote scripts.
+Trigger Command : Get-System -Technique NamedPipe -Verbose
+
+
+
+
+
+
+                                                        ## 🔍 Step-by-Step Investigation Timeline
+
+
+-Phase 1: Check logs to see if there is success of the Brute Force attack. There is access granted through several failed times.
+
+
+-Phase 2: We proceed to contain the machine.
+
+
+-Phase 3: We proceed to check the commands to see if he achieved elevation privileges which he did. He downloaded a file with format .ps1 to execute it with powershell on the RAM. Which
+was looking for the Token of the cmd which was how he got elevated privileges.
+
+
+-Phase 4: Check if the IP was connected to another IP from the network which hasn't been made any lateral movement.
+
+
+
+
+
+                                                        ## 📋 Let's Defend Playbook Resolution
+
+
+
+
+    -Question 1: What is the Operating system of the endpoint in the alert details?
+Windows
+
+
+    -Question 2: Based on the endpoint security assessment, which Defense Evasion Techniques does the attack involve?
+Access Token Manipulation
+
+
+    -Question 3: Evaluate whether any IOCs found are suspicious based on their behavior and reputation. Have you encountered any IOCs?
+Yes
+
+
+    -Question 4: Check the attacker reputation. Is the IOC suspicious or not?
+No
+
+
+    -Question 5: Is there more than one affected device?
+No
+
+
+    -Question 6: Should the device be isolated?
+Yes
+
+
+We classify it as True Positive.
+
+
+Correction: In question number 4 the correct answer is Yes because according to Abuseipdb, there is categorized as malicious. I looked at VirusTotal and it was clean.
