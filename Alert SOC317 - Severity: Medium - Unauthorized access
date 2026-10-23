@@ -1,0 +1,92 @@
+🚨 Alert 
+** SEVERITY: HIGH** | **STATUS: TRUE POSITIVE** | **TARGET: `x` (`x.x.x.x`)**
+
+
+
+
+
+                                                        ## 🟢 Overview & Metadata
+
+
+
+
+EventID : 295
+Event Time : 2024-08-29T12:32:15+03:00
+Rule : SOC317 - Possible VM Detection Attempt
+Role : Incident Responder
+Alert Type : Unauthorized Access
+Difficulty : Medium
+MITRE ATT&CK : T1078 T1133 T1047 T1059.001 T1497.001 T1110 T1057 T1082 T1087
+L1 Note : I could not determine whether the command that caused the alert belonged to the attacker. However, I saw a brute force attempt from the IP "37.19.205.203" minutes before the alert
+occurred.
+Hostname : Anemon
+Ip Address : 172.16.17.118
+Command Line : Get-WmiObject -Class Win32_ComputerSystem
+Process Path : C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Device Action : Allowed
+Parent Process : powershell.exe
+Trigger Reason : Attackers detected various system checks to detect and evade virtualization and analysis environments.
+
+
+
+
+
+                                                        ## 🔍 Step-by-Step Investigation Timeline
+
+
+-Phase 1: We check the logs. We see how there are several failed attemps of connection to the victim and a accessed login at the end. That doesn't mean it's malicious as we dont have 
+    previous connections or list of allowed.
+
+
+-Phase 2: We check the IP '37.19.205.203' on virustotal but it seems to be clean.
+
+
+-Phase 3: We check the commands executed on the victim. We see a reconnaissance tactic and aswell command execution through Powershell. We proceed to contain the machine.
+
+
+-Phase 4: We will check any connections from both IPs the victim and attacker to other IPs from the network to see if there is lateral movement.
+
+
+-Phase 5: We check the processes to see of the attacker acted. He unninstalled the antivirus and related functions with wevutils, so he had privileged access. He also installed through
+/temp a version of the antivirus and installed it with a payload program. All of this through powershell.
+
+
+
+
+
+
+
+
+                                                        ## 📋 Let's Defend Playbook Resolution
+
+
+
+
+    -Question 1: What is the Operating system of the endpoint in the alert details?
+Windows
+
+
+    -Question 2: Based on the analysis conducted on endpoint security and log management, which Defense Evasion techniques does the attack involve?
+Exploitation for Defense Evasion
+
+
+    -Question 3: Evaluate whether any IOCs found are suspicious based on their behavior and reputation. Have you encountered any IOCs?
+Yes
+
+
+    -Question 4: Is it suspicious or not?
+Yes
+
+
+    -Question 5: Is there more than one affected device?
+No
+
+
+    -Question 6: Should the device be isolated?
+Yes
+
+
+We classify it as True Positive.
+
+Correction: In question number 2 the correct answer is considered to be Virtualization/Sandbox Evasion as there is a reconnaissance checking if there is a Virtualization machine, but
+there is actual Exploitation also so it's tricky.
