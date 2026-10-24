@@ -1,5 +1,5 @@
 🚨 Alert 
-** SEVERITY: HIGH** | **STATUS: TRUE POSITIVE** | **TARGET: `x` (`x.x.x.x`)**
+** SEVERITY: HIGH** | **STATUS: TRUE POSITIVE** | **TARGET: `Jordan` (`172.16.17.11`)**
 
 
 
@@ -10,7 +10,21 @@
 
 
 
-
+EventID : 130
+Event Time : 2023-03-27T13:34:23+03:00
+Rule : SOC180 - BianLian Ransomware Detected
+Role : Incident Responder
+Alert Type : Ransomware
+Difficulty : Hard
+MITRE ATT&CK : T1566 T1059 T1059.001 T1486
+L1 Note : When I examined the alarm, It has been seen that Jordan tried to go to a torrent site before running the relevant .exe. He probably downloaded the malware on his machine while trying to download a game from a torrent site.
+Hostname : Jordan
+File Path : \Device\HarddiskVolume1\Users\LetsDefend\Downloads\46d340eaf6b78207e24b6011422f1a5b4a566e493d72365c6a1cace11c36b28b.bin\46d340eaf6b78207e24b6011422f1a5b4a566e493d72365c6a1cace11c3
+6b28b.exe
+EDR Action : Allowed
+IP Address : 172.16.17.11
+Affected User : Jordan
+Alert Trigger Reason : BianLian IOC detected on the host.
 
 
 
@@ -20,28 +34,35 @@
                                                         ## 🔍 Step-by-Step Investigation Timeline
 
 
--Phase 1: 
+-Phase 1: This time we will go directly to Endpoint detection to check the commands and contain the machine as fast as possible.
 
 
--Phase 2: 
+-Phase 2: We see that the last command was a execution of notepad with a file .txt so probably that's the instructions. We contain the machine.
 
 
--Phase 3:
+-Phase 3: We cannot see the processes. We will check the Logs management to see if there is a connection to the IP in case he moved laterally or if the attacker brute forced the victim Jordan
 
 
--Phase 4: 
+-Phase 4: We see how the victim downloaded a PC game cracked. There is also a download from aws services, it's a rar file. He also downloads a file from IP 83.97.73.129 and stores it in temp.
 
 
--Phase 5: 
+-Phase 5: We check the IP 83.97.73.129 which shows that is malicious. We check that the IP is not in other machines of the network, which is not other one.
 
 
--Phase 6: 
+-Phase 6: The attacker executes a script with macros of office and bypassing office antivirus. He also eliminate RAM fingerprints doing anti forensic macro.
 
 
--Phase 7: 
+-Phase 7: The attacker makes reconnaissance of the network and also check for privilege escalation. He cleared the logs to do anti forensics. 
 
 
--Phase 8: 
+-Phase 8: He pings the web hackdev.ciaffa.net which is considered malicious in Virustotal. He vulnerates the msbuild legitimate process inyecting code.
+
+
+-Phase 9: He downloads a cert from sketchanalyticsvault.com which is malicious and moves it to the legitimate certs of the machine. He creates a new admin user named LetsDefend.
+
+
+-Phase 10: The last connected IP to is 185.199.108.133 which is seems to be malicious too. We will check for any lateral movement from this IP. Which there are multiple connections from the
+victim to this IP but not other machines.
 
 
 
@@ -52,24 +73,35 @@
 
 
 
-    -Question 1: 
+    -Question 1: Is there any related message evidence?
+Yes
 
 
-
-    -Question 2:
-
-
-
-    -Question 3:
+    -Question 2: Is there any text evidence to identify the ransomware type?
+Yes
 
 
-
-    -Question 4:
-
-
-
-    -Question 5:
+    -Question 3: Is there file-type evidence to help identify the ransomware type?
+Yes
 
 
+    -Question 4: Upload the encrypted file to the following services. Is there any useful data?
+Yes
 
-Correction: In question number 2 the malware is not quarantined, we contained the system but the firewall didn't quarantined it.
+
+    -Question 5: What is the initial access method used in the attack?
+Trusted Relationship
+
+
+    -Question 6: Is there more than one infected device??
+No
+
+
+    -Question 7: Does the device need to be isolated?
+Yes
+
+
+We classify it as True Positive.
+
+
+Correction: In question number 5 the correct answer is phishing but there is no mails in the page mail of Jordan, the searcher for mails doesn't work in this page.
