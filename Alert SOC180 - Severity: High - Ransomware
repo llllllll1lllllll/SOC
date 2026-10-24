@@ -1,0 +1,75 @@
+🚨 Alert 
+** SEVERITY: HIGH** | **STATUS: TRUE POSITIVE** | **TARGET: `x` (`x.x.x.x`)**
+
+
+
+
+
+                                                        ## 🟢 Overview & Metadata
+
+
+
+
+
+
+
+
+
+
+
+                                                        ## 🔍 Step-by-Step Investigation Timeline
+
+
+-Phase 1: 
+
+
+-Phase 2: 
+
+
+-Phase 3:
+
+
+-Phase 4: 
+
+
+-Phase 5: 
+
+
+-Phase 6: 
+
+
+-Phase 7: 
+
+
+-Phase 8: 
+
+
+
+
+
+                                                        ## 📋 Let's Defend Playbook Resolution
+
+
+
+
+    -Question 1: 
+
+
+
+    -Question 2:
+
+
+
+    -Question 3:
+
+
+
+    -Question 4:
+
+
+
+    -Question 5:
+
+
+
+Correction: In question number 2 the malware is not quarantined, we contained the system but the firewall didn't quarantined it.
